@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { useFormHook } from '../hooks/useFormData';
-import { appTheme } from '../themes/appTheme';
+import { RootStackUserParams } from '../../navigator/UserNavigator';
+import { StackScreenProps } from '@react-navigation/stack';
+import { useFormHook } from '../../hooks/useFormData';
+import { appTheme } from '../../themes/appTheme';
+import { BtnTouch } from '../../components/BtnTouch';
 
-export const FormScreen = () => {
+interface Props extends StackScreenProps<RootStackUserParams,'FormScreen'>{};
+
+export const FormScreen = ( { navigation, route }: Props ) => {
 
     const { formData, formList, handleInputChange, handleSubmit } = useFormHook();
+    
+    const user = route.params.user;
+    
+    useEffect( () => {
+        handleInputChange('_id',user._id);
+        handleInputChange('username',user.username);
+        handleInputChange('imagen',user.imagen);
+        handleInputChange('tipo',user.tipo);
+    },[]);
 
     return(
         <ScrollView
@@ -21,7 +35,23 @@ export const FormScreen = () => {
                 >
                     Formulario de Usuarios
                 </Text>
-                <View>
+                <View
+                    style={{
+                        alignContent: "center",
+                        alignItems: "center"
+                    }}
+                >
+                    {
+                        (formData._id != "") &&
+                        <BtnTouch
+                            title='Eliminar Usuario'
+                            background='red'
+                            onPress={ () => {
+                                console.log("eliminar")
+                            }}
+                            bColor='pink'
+                        />
+                    }
                     <Text
                         style={ appTheme.subtext }
                     >
@@ -46,19 +76,6 @@ export const FormScreen = () => {
                         placeholder='Nombre del usuario'
                         placeholderTextColor='violet'
                         secureTextEntry={ true }
-                    />
-                    <Text
-                        style={ appTheme.subtext }
-                    >
-                        Edad
-                    </Text>
-                    <TextInput
-                        style={ appTheme.input }
-                        value={ formData.edad }
-                        onChangeText={ (text) => handleInputChange('edad',text) }
-                        placeholder='Nombre del usuario'
-                        placeholderTextColor='violet'
-                        keyboardType='numeric'
                     />
                     <TouchableOpacity
                         style={ appTheme.btn }

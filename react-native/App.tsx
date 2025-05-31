@@ -4,11 +4,15 @@ import React from 'react';
 //import { PanecitoScreen } from './src/screens/PanecitoScreen';
 //import { UseReducerScreen } from './src/screens/UseReducerScreen';
 //import { FormScreen } from './src/screens/FormScreen';
-import { ImagePickerScreen } from './src/screens/ImagePickerScreen';
+//import { ImagePickerScreen } from './src/screens/ImagePickerScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { UserNavigator } from './src/navigator/UserNavigator';
 
 const App = () => {
     return (
-        <ImagePickerScreen/>
+        <NavigationContainer>
+            <UserNavigator/>
+        </NavigationContainer>
     );
 }
 

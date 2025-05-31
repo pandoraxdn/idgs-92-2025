@@ -1,9 +1,10 @@
 import { useState } from "react";
 
 export interface FormData{
+    _id:        string;
     username:   string;
     password:   string;
-    imagen:      string;
+    imagen:     string;
     tipo:       "user" | "admin" | "client";
 }
 
@@ -16,6 +17,7 @@ interface UseFormHook{
 
 export const useFormHook = (): UseFormHook => {
     const initialState: FormData = {
+        _id:        '',
         username:   '',
         password:   '',
         imagen:     '',
