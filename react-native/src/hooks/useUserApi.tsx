@@ -17,7 +17,7 @@ export const useUserApi = () => {
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ listUser, setListUser ] = useState<UsersData>( {} as UsersData );
 
-    const apiUrl: string = 'http://192.168.1.246:3000/api/v1/users';
+    const apiUrl: string = 'http://192.168.1.38:3000/api/v1/users';
 
     const loadUsers = async () => {
         setIsLoading( true );

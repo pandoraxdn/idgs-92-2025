@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useUserApi } from "./useUserApi";
 
 export interface FormData{
     _id:        string;
@@ -13,9 +14,13 @@ interface UseFormHook{
     formList: FormData[];
     handleInputChange: ( fieldName: keyof FormData, value: string | number ) => void;
     handleSubmit: () => void;
+    handleDelete: () => void;
 }
 
 export const useFormHook = (): UseFormHook => {
+
+    const { createUser, updateUser, deleteUser } = useUserApi();
+
     const initialState: FormData = {
         _id:        '',
         username:   '',
@@ -36,6 +41,16 @@ export const useFormHook = (): UseFormHook => {
 
     const handleSubmit = () => {
         setFormList( (prevList) => [...prevList, formData] );
+
+        ( formData._id !== '' )
+        ? updateUser(formData)
+        : createUser( formData );
+
+        setFormData( initialState );
+    }
+
+    const handleDelete = () => {
+        deleteUser( formData );
         setFormData( initialState );
     }
 
@@ -43,7 +58,8 @@ export const useFormHook = (): UseFormHook => {
         formData,
         formList,
         handleInputChange,
-        handleSubmit
+        handleSubmit,
+        handleDelete
     }
 }
 

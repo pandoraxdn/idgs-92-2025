@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, FlatList, RefreshControl } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { useUserApi } from '../../hooks/useUserApi';
 import { BtnTouch } from '../../components/BtnTouch';
 import { CardUser } from '../../components/CardUser';
@@ -9,6 +9,12 @@ import { UsersData } from '../../interfaces/requestApi';
 
 export const HomeUserScreen = () => {
 
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        (isLoading) && loadUsers();
+    },[isFocused]);
+
     const { listUser, isLoading, loadUsers } = useUserApi();
     const navigation = useNavigation();
 
@@ -16,7 +22,7 @@ export const HomeUserScreen = () => {
         _id:        '',
         username:   '',
         password:   '',
-        tipo:       '',
+        tipo:       'user',
         imagen:     '',
         __v:        0,
     }
@@ -66,5 +72,5 @@ export const HomeUserScreen = () => {
                 )}
             />
         </View>
-    )
+    );
 }

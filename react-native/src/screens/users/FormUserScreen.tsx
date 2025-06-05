@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 import { RootStackUserParams } from '../../navigator/UserNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useFormHook } from '../../hooks/useFormData';
@@ -8,9 +10,104 @@ import { BtnTouch } from '../../components/BtnTouch';
 
 interface Props extends StackScreenProps<RootStackUserParams,'FormScreen'>{};
 
+interface BtnForm{
+    action: () => void;
+    estado: string;
+    tipo: string;
+}
+
+const BtnForm = ( { tipo, action, estado } : BtnForm ) => {
+
+    let colorBtn: string = "white";
+
+    switch( tipo ){
+        case 'client':
+            colorBtn = "#e8c70b";
+            break;
+        case 'user':
+            colorBtn = "#90EE90";
+            break;
+        case 'admin':
+            colorBtn = "#d90000";
+            break;
+    }
+    
+    return(
+        <TouchableOpacity
+            onPress={ action }
+        >
+            <View
+                style={{
+                    backgroundColor: ( estado === '' ) ? "white": colorBtn,
+                    borderRadius: 30,
+                    borderWidth : (estado === '') ? 1 : 0,
+                    marginHorizontal: 5,
+                    justifyContent: "center",
+                    height: 60,
+                    width: 90,
+                    marginTop: 10,
+                    marginBottom: 10
+                }}
+            >
+                <Text
+                    style={{
+                        color: (estado === '') ? 'black': 'white',
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        fontSize: 17
+                    }}
+                >
+                    { tipo }
+                </Text>
+            </View>
+        </TouchableOpacity>
+    );
+}
+
 export const FormScreen = ( { navigation, route }: Props ) => {
 
-    const { formData, formList, handleInputChange, handleSubmit } = useFormHook();
+    const [ image, setImage ] = useState<string|null>(null);
+    const [ image64, setImage64 ] = useState<string|null>(null);
+
+    useEffect( () => {
+        ( async () => {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if ( status !== "granted" ){
+                Alert.alert(
+                    "Permiso requerido",
+                    "Debes otorgar los permisos para acceder a la galería."
+                ); 
+            }
+        })();
+    },[]);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ["images"],
+            allowsEditing: true,
+            aspect: [4,3],
+            quality: 0.9,
+        });
+
+        ( !result.canceled ) && ( () => {
+            setImage( result.assets[0].uri );
+            convertImage64( result.assets[0].uri );
+        })();
+    }
+
+    const convertImage64 = async ( imageUri: string ) => {
+        try{
+            const base64 = await FileSystem.readAsStringAsync( imageUri,{
+                encoding: FileSystem.EncodingType.Base64,
+            });
+            setImage64( base64 );
+            handleInputChange('imagen',base64);
+        }catch (error){
+            console.log(error);
+        }
+    }
+
+    const { formData, handleInputChange, handleSubmit, handleDelete } = useFormHook();
     
     const user = route.params.user;
     
@@ -47,7 +144,8 @@ export const FormScreen = ( { navigation, route }: Props ) => {
                             title='Eliminar Usuario'
                             background='red'
                             onPress={ () => {
-                                console.log("eliminar")
+                                handleDelete();
+                                navigation.goBack();
                             }}
                             bColor='pink'
                         />
@@ -77,9 +175,53 @@ export const FormScreen = ( { navigation, route }: Props ) => {
                         placeholderTextColor='violet'
                         secureTextEntry={ true }
                     />
+                    <View>
+                        <BtnTouch
+                            title='Avatar'
+                            onPress={() => pickImage() }
+                            background='black'
+                            bColor='gray'
+                        />
+                        {
+                            (formData.imagen) && (
+                                <Image 
+                                    source={{
+                                        uri: `data:image/jpeg;base64,${formData.imagen}`
+                                    }}
+                                    style={{
+                                        width: 200,
+                                        height: 300,
+                                        borderRadius: 20
+                                    }}
+                                />
+                            )
+                        }
+                    </View>
+                    <View
+                        style={{ flexDirection: "row", marginTop: 5 }}
+                    >
+                        <BtnForm
+                            tipo='client'
+                            action={ () => handleInputChange('tipo','client') }
+                            estado={ ( formData.tipo === "client" ) ? formData.tipo : '' }
+                        />
+                        <BtnForm
+                            tipo='admin'
+                            action={ () => handleInputChange('tipo','admin') }
+                            estado={ ( formData.tipo === "admin" ) ? formData.tipo : '' }
+                        />
+                        <BtnForm
+                            tipo='user'
+                            action={ () => handleInputChange('tipo','user') }
+                            estado={ ( formData.tipo === "user" ) ? formData.tipo : '' }
+                        />
+                    </View>
                     <TouchableOpacity
                         style={ appTheme.btn }
-                        onPress={ () => handleSubmit() }
+                        onPress={ () => {
+                            handleSubmit();
+                            navigation.navigate("HomeUserScreen");
+                        }}
                     >
                         <View
                             style={{
@@ -105,16 +247,18 @@ export const FormScreen = ( { navigation, route }: Props ) => {
                             </Text>
                         </View>
                     </TouchableOpacity>
-                    <View>
-                        {( formList.map( (form, index) => (
-                            <Text
-                                key={ index }
-                                style={{ fontSize: 16 }}
-                            >
-                                { JSON.stringify(form) }
-                            </Text>
-                        )))}
-                    </View>
+                    {/*
+                        <View>
+                            {( formList.map( (form, index) => (
+                                <Text
+                                    key={ index }
+                                    style={{ fontSize: 16 }}
+                                >
+                                    { JSON.stringify(form) }
+                                </Text>
+                            )))}
+                        </View>
+                    */}
                 </View>
             </View>
         </ScrollView>
