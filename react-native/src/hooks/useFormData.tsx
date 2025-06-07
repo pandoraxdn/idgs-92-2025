@@ -42,8 +42,8 @@ export const useFormHook = (): UseFormHook => {
     const handleSubmit = () => {
         setFormList( (prevList) => [...prevList, formData] );
 
-        ( formData._id !== '' )
-        ? updateUser(formData)
+        ( formData._id != '' )
+        ? updateUser( formData )
         : createUser( formData );
 
         setFormData( initialState );

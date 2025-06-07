@@ -12,7 +12,7 @@ export const HomeUserScreen = () => {
     const isFocused = useIsFocused();
 
     useEffect(() => {
-        (isLoading) && loadUsers();
+        loadUsers();
     },[isFocused]);
 
     const { listUser, isLoading, loadUsers } = useUserApi();

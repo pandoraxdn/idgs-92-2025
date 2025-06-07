@@ -32,22 +32,23 @@ export const CardUser = ( { user }: Props ) => {
         >
             <View
                 style={{
-                    ...style.backgroundTop
-                }}
-            />
-            <View
-                style={{
-                    ...style.backgroundBottom
-                }}
-            />
-            <View
-                style={{
                     ...style.cardContainer,
-                    backgroundColor: type_user(user),
                     width: width * 0.4,
                     overflow: "hidden"
                 }}
             >
+                <View
+                    style={{
+                        ...style.backgroundTop,
+                        backgroundColor: type_user(user),
+                    }}
+                />
+                <View
+                    style={{
+                        ...style.backgroundBottom
+                    }}
+                />
+
                 <Text
                     style={ style.cardTitle }
                 >
@@ -94,7 +95,7 @@ const style = StyleSheet.create({
         left: 0,
         right: 0,        
         bottom: 0,
-        backgroundColor: "white",
+        backgroundColor: "gray",
         transform:[
             { rotateX: "20deg" },
             { rotateY: "-45deg" },

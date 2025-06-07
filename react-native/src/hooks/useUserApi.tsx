@@ -38,14 +38,26 @@ export const useUserApi = () => {
     }
 
     const updateUser = async ( data: FormData ) => {
-        const dataBody = {
-            username: data.username,
-            imagen: data.imagen,
-            password: data.password,
-            tipo: data.tipo,
-        }
 
-        await pandoraApi.post( apiUrl + `/${data._id}`, dataBody );
+        if( data.password != '' ){
+            const dataBody = {
+                username: data.username,
+                imagen: data.imagen,
+                password: data.password,
+                tipo: data.tipo,
+            }
+            await pandoraApi.patch( apiUrl + `/${data._id}`, dataBody );
+    
+        }else{
+            const dataBody = {
+                username: data.username,
+                imagen: data.imagen,
+                tipo: data.tipo,
+            }
+
+            await pandoraApi.patch( apiUrl + `/${data._id}`, dataBody );
+        }
+    
     }
 
     const deleteUser = async ( data: FormData ) => {

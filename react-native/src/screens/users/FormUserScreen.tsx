@@ -141,7 +141,7 @@ export const FormScreen = ( { navigation, route }: Props ) => {
                     {
                         (formData._id != "") &&
                         <BtnTouch
-                            title='Eliminar Usuario'
+                            title={`Eliminar User:`}
                             background='red'
                             onPress={ () => {
                                 handleDelete();
