@@ -9,6 +9,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { DrawerNavigator } from './src/navigator/DrawerNavigator';
 import { AuthProvider } from './src/context/AuthContext';
 
+const AppState = ( { children }: { children: ReactNode } ) => {
+    return(
+        <AuthProvider>
+            { children }
+        </AuthProvider>
+    );
+}
+
 const App = () => {
     return (
         <NavigationContainer>
@@ -17,15 +25,6 @@ const App = () => {
             </AppState>
         </NavigationContainer>
     );
-}
-
-const AppState = ( { children }: { children: ReactNode } ) => {
-    return(
-        <AuthProvider>
-            { children }
-        </AuthProvider>
-    );
-
 }
 
 export default App;

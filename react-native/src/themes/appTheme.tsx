@@ -1,5 +1,20 @@
 import { StyleSheet } from "react-native";
 
+export const theme = {
+    ligthTheme:{
+        backgroundTheme: "white",
+        bgMenu: "cyan",
+        titleC: "black",
+        colorBtn: "lightblue"
+    },
+    darkTheme:{
+        backgroundTheme: "black",
+        bgMenu: "pink",
+        titleC: "black",
+        colorBtn: "violet"
+    },
+}
+
 export const appTheme = StyleSheet.create({
     container:{
         justifyContent: "center",

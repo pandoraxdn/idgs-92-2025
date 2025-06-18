@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { View, Text, FlatList, RefreshControl } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { useUserApi } from '../../hooks/useUserApi';
@@ -6,8 +6,11 @@ import { BtnTouch } from '../../components/BtnTouch';
 import { CardUser } from '../../components/CardUser';
 import { appTheme } from '../../themes/appTheme';
 import { UsersData } from '../../interfaces/requestApi';
+import { AuthContext } from '../../context/AuthContext';
 
 export const HomeUserScreen = () => {
+
+    const { singIng, logout, authState } = useContext( AuthContext );
 
     const isFocused = useIsFocused();
 
@@ -39,6 +42,19 @@ export const HomeUserScreen = () => {
                 keyExtractor={ (item) => '#'+item._id }
                 ListHeaderComponent={(
                     <View>
+                        {
+                            ( authState.isLoggenIn )
+                            ? <BtnTouch 
+                                title='Cerrar Sesión'
+                                onPress={ () => logout() }
+                                bColor="black"
+                            />
+                            : <BtnTouch 
+                                title='Iniciar Sesión'
+                                onPress={ () => singIng() }
+                                bColor="blue"
+                            />
+                        }
                         <Text
                             style={{
                                 ...appTheme.text,

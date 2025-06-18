@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text } from 'react-native';
 import { appTheme } from '../themes/appTheme';
+import { AuthContext } from '../context/AuthContext';
 
 export const PanecitoScreen = () => {
+
+    const { authState } = useContext(AuthContext);
 
     const [ hora, setHora ] = useState( new Date() );
 
@@ -31,6 +34,13 @@ export const PanecitoScreen = () => {
         <View
             style={ appTheme.container }
         >
+            <Text
+                style={{
+                    fontSize: 30
+                }}
+            >
+                { JSON.stringify(authState) }
+            </Text>
             <Text
                 style={{
                     ...appTheme.text,

@@ -5,19 +5,19 @@ import { FormData } from "./useFormData";
 
 interface UseUserApi{
     isLoading:  boolean;
-    listUser:   FormData;
+    listUser:   UsersData;
     loadUsers:  () => void;
     createUser: ( data: FormData ) => void;
     updateUser: ( data: FormData ) => void;
     deleteUser: ( data: FormData ) => void;
 }
 
-export const useUserApi = () => {
+export const useUserApi = (): UseUserApi => {
 
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ listUser, setListUser ] = useState<UsersData>( {} as UsersData );
 
-    const apiUrl: string = 'http://192.168.1.38:3000/api/v1/users';
+    const apiUrl: string = 'http://192.168.34.152:3000/api/v1/users';
 
     const loadUsers = async () => {
         setIsLoading( true );

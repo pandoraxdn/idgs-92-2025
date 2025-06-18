@@ -6,3 +6,5 @@ export interface UsersData {
     tipo:     string;
     __v:      number;
 }
+
+export type RequestLogin = UsersData | false;

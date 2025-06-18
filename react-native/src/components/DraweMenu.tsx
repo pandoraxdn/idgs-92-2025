@@ -41,6 +41,24 @@ export const DrawerMenu = ( { navigation }: DrawerContentComponentProps ) => {
                     bColor='pink'
                     title='Crud Usuarios'
                 />
+                <BtnTouch
+                    background='violet'
+                    onPress={ () => navigation.navigate("PanecitoScreen") }
+                    bColor='pink'
+                    title='Panecito'
+                />
+                <BtnTouch
+                    background='violet'
+                    onPress={ () => navigation.navigate("ContadorBasico") }
+                    bColor='pink'
+                    title='ContadorBasico'
+                />
+                <BtnTouch
+                    background='violet'
+                    onPress={ () => navigation.navigate("HomeScreen") }
+                    bColor='pink'
+                    title='HomeScreen'
+                />
             </View>
         </DrawerContentScrollView>
     );

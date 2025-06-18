@@ -4,23 +4,29 @@ type AuthActions =
     | { type: "singIng" }
     | { type: "logout" }
     | { type: "changeUserName", payload: string }
-    | { type: "changeAvatar", payload: string };
+    | { type: "changeAvatar", payload: string }
+    | { type: "changeTheme", payload: string };
 
 export const authReducer = ( state: AuthState, action: AuthActions ) => {
     switch(action.type){
         case "singIng":
             return {
                 ...state,
-                isLoggenIn: true,
+                isLoggedIn: true,
                 username: "pandora",
                 avatar: "image.jpg"
         };
         case "logout":
             return {
                 ...state,
-                isLoggenIn: false,
+                isLoggedIn: false,
                 username: "",
                 avatar: ""
+        };
+        case 'changeTheme':
+            return{
+                ...state,
+                theme: action.payload
         };
         case 'changeUserName':
             return{

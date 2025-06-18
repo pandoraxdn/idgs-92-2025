@@ -16,9 +16,9 @@ export const CardUser = ( { user }: Props ) => {
     const type_user = ( user: UsersData ) => {
         switch( user.tipo ){
             case "user":
-                return "#e8c70b";
-            case "client":
                 return "#90EE90";
+            case "client":
+                return "#e8c70b";
             case "admin":
                 return "#d90000";
         }
