@@ -43,7 +43,7 @@ export const HomeUserScreen = () => {
                 ListHeaderComponent={(
                     <View>
                         {
-                            ( authState.isLoggenIn )
+                            ( authState.isLoggedIn )
                             ? <BtnTouch 
                                 title='Cerrar Sesión'
                                 onPress={ () => logout() }

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { View, Text } from 'react-native';
-import { appTheme, theme } from '../themes/appTheme';
+import { View, Text, Image } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
+import { appTheme, theme } from '../themes/appTheme';
 import { BtnTouch } from '../components/BtnTouch';
 
 export const HomeScreen = () => {
@@ -11,35 +11,53 @@ export const HomeScreen = () => {
     return(
         <View
             style={{
-                ...appTheme,
+                ...appTheme.container,
                 flex: 1,
-                backgroundColor: ( authState.theme == "dark" ) ? theme.darkTheme.backgroundTheme : theme.ligthTheme.backgroundTheme
+                backgroundColor: ( authState.theme == "light" ) ? theme.ligthTheme.backgroundTheme : theme.darkTheme.backgroundTheme,
             }}
         >
-            {
-                (authState.theme == "dark")
-                ?
-                    <BtnTouch
-                        title='Obscuro'
-                        background={ (authState.theme == "dark") ? theme.darkTheme.colorBtn : theme.ligthTheme.colorBtn }
-                        onPress={() => changeTheme("dark") }
-                        bColor='white'
-                    />
-                :
-                    <BtnTouch
-                        title='Claro'
-                        background={ (authState.theme == "dark") ? theme.darkTheme.colorBtn : theme.ligthTheme.colorBtn }
-                        onPress={() => changeTheme("light") }
-                        bColor='black'
-                    />
-            }
+
+            <Image 
+                source={{
+                    uri: `data:image/png;base64,${authState.avatar}`
+                }}
+                style={{
+                    width: 200,
+                    height: 200,
+                    borderRadius: 100,
+                    borderWidth: 10,
+                    borderColor: ( authState.theme == "light" ) ? theme.ligthTheme.titleC : theme.darkTheme.titleC,
+                }}
+            />
             <Text
                 style={{
-                    color: (authState.theme == "dark") ? theme.darkTheme.titleC : theme.ligthTheme.titleC
+                    ...appTheme.text,
+                    color: ( authState.theme == "light" ) ? theme.ligthTheme.titleC : theme.darkTheme.titleC,
                 }}
             >
-                { JSON.stringify(authState) }
+                User: { authState.username }
             </Text>
+            <Text
+                style={{
+                    ...appTheme.text,
+                    color: ( authState.theme == "light" ) ? theme.ligthTheme.titleC : theme.darkTheme.titleC,
+                }}
+            >
+                Theme: { authState.theme }
+            </Text>
+            {
+                (authState.theme == "light")
+                ? <BtnTouch
+                    title='Dark'
+                    bColor={ theme.darkTheme.backgroundTheme }
+                    onPress={ () => changeTheme("dark") }
+                />
+                : <BtnTouch
+                    title='Light'
+                    bColor={ theme.ligthTheme.backgroundTheme }
+                    onPress={ () => changeTheme("light") }
+                />
+            }
         </View>
-    )
+    );
 }

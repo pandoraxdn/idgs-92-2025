@@ -10,7 +10,7 @@ export const theme = {
     darkTheme:{
         backgroundTheme: "black",
         bgMenu: "pink",
-        titleC: "black",
+        titleC: "white",
         colorBtn: "violet"
     },
 }
