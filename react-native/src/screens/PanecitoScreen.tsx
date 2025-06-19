@@ -39,7 +39,7 @@ export const PanecitoScreen = () => {
                     fontSize: 30
                 }}
             >
-                { JSON.stringify(authState) }
+                { JSON.stringify(authState.username) }
             </Text>
             <Text
                 style={{

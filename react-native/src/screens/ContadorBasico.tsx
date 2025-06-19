@@ -28,7 +28,6 @@ export const ContadorBasico = () => {
                 title='Reset'
                 onPress={ () => reset() }
             />
-
         </View>
-    )
+    );
 }

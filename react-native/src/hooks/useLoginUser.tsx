@@ -39,7 +39,7 @@ export const useLoginUser = () => {
 
     const handleLogin = async () => {
         setLoading(true);
-        const apiUrl = 'http://192.168.34.152:3000/api/v1/users/login';
+        const apiUrl = 'http://192.168.1.74:3000/api/v1/users/login';
         const dataBody ={
             username: state.username,
             password: state.password
