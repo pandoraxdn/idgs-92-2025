@@ -23,7 +23,7 @@ critero = nn.MSELoss()
 optimzacion = optim.SGD(modelo.parameters(),lr=0.01)
 
 # Entrenamiento
-for epoca in range(1000):  # Repetimos 1000 veces
+for epoca in range(10000):  # Repetimos 10000 veces
     prediccion = modelo(entradas)          # Paso 1: hace una predicción
     perdida = critero(prediccion, salidas)  # Paso 2: calcula el error
     optimzacion.zero_grad()                # Paso 3: limpia errores anteriores
@@ -31,7 +31,7 @@ for epoca in range(1000):  # Repetimos 1000 veces
     optimzacion.step()                     # Paso 5: ajusta los pesos
 
     if epoca % 200 == 0:
-        print(f"Época {epoca}: pérdida = {perdida.item():.4f}")
+        print(f"Época {epoca}: pérdida = {perdida.item():.6f}")
 
 nueva_entrada = torch.tensor([[4.0,6.0]]) # Quiero que aprendas cuanto es 4 + 6 = 10
 resultado = modelo(nueva_entrada)
