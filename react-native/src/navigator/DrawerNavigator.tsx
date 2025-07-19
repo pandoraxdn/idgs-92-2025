@@ -8,6 +8,7 @@ import { PanecitoScreen } from './../screens/PanecitoScreen';
 import { AuthContext } from './../context/AuthContext';
 import { LoginScreen2 } from '../screens/users/LoginScreen2';
 import { HomeScreen } from '../screens/HomeScreen';
+import ChatVoiceScreen from '../screens/ChatVoiceScreen';
 
 export type RootDrawerProps = {
     UserNavigator: undefined;
@@ -62,6 +63,7 @@ export const DrawerNavigator = () => {
 
     const { authState } = useContext(AuthContext);
 
-    return authState.isLoggedIn ? <Navigator/> : <LoginScreen2/>
+    //return authState.isLoggedIn ? <Navigator/> : <LoginScreen2/>
+    return authState.isLoggedIn ? <Navigator/> : <ChatVoiceScreen/>
 
 }
