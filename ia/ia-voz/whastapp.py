@@ -3,11 +3,11 @@ from twilio.rest import Client
 def enviar_whatsapp(contacto, mensaje):
     account_sid = ""
     auth_token = ""
-    twilio_number = 'whatsapp:+'
-
+    twilio_number = ''
 
     contactos = {
-        "mary": "whatsapp:+",
+        "mary": "",
+        "maria": "",
     }
 
     numero = contactos.get(contacto.lower())

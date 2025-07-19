@@ -2,6 +2,7 @@ import torch
 import librosa
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor
 from whastapp import enviar_whatsapp
+from correo import enviar_correo
 
 model_name = "jonatasgrosman/wav2vec2-large-xlsr-53-spanish"
 
@@ -47,6 +48,19 @@ def audio_to_text(file):
     text_correct = corregir_errores(text)
     return text_correct
 
+def procesar_comando_correo(texto):
+    try:
+        parte_despues_de_a = texto.split(" a ",1)[1]
+        nombre_destinatario = parte_despues_de_a.split(" ",1)[1]
+
+        cuerpo_mensaje = texto.split("que le diga ",1)[1]
+        asunto = "Mensaje por voz"
+        var = enviar_correo(nombre_destinatario=nombre_destinatario,asunto=asunto,cuerpo_mensaje=cuerpo_mensaje)
+        return f"{var}"
+
+    except Exception as e:
+        print(e)
+
 def procesar_comando_whastapp(texto):
     try:
         parte_despues_de_a = texto.split(" a ",1)[1]
@@ -62,16 +76,18 @@ def detectar_comando(text):
         procesar_comando_whastapp(text)
     elif "enviar correo" in text or "correo" in text:
         print("El usuario quiere enviar un correo")
+        procesar_comando_correo(text)
     else:
         print("No se detecto ningun acción específica")
 
-if __name__ == "__main__":
-    route_audio = "./correo.mp3"
-    text = audio_to_text(route_audio)
+def procesar_audio(file):
+    text = audio_to_text(file)
     print(f"Transcripción: {text}")
     detectar_comando(text)
 
-    route_audio = "./whatsapp.mp3"
-    text = audio_to_text(route_audio)
-    print(f"Transcripción: {text}")
-    detectar_comando(text)
+if __name__ == "__main__":
+    route_audio = "./correo.mp3"
+    procesar_audio(route_audio)
+
+    route_audio = "./whastapp.mp3"
+    procesar_audio(route_audio)
